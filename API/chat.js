@@ -48,8 +48,7 @@ export default async function handler(req, res) {
 
   // ── Build Gemini request ──
   const MODEL   = 'gemini-3-flash-preview.';
-  const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
-
+  const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=
   const payload = {
     systemInstruction: {
       parts: [{ text: system.trim() }],
