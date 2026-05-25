@@ -14,7 +14,7 @@
 //  KEY KAHAN SE LEIN:
 //  aistudio.google.com → Get API Key → Create API Key
 //
-//  Model used: gemini-2.0-flash-preview
+//  Model used: gemini-3-flash-preview.
 // ═══════════════════════════════════════════════════════
 
 export default async function handler(req, res) {
