@@ -47,7 +47,7 @@ export default async function handler(req, res) {
   }
 
   // ── Build Gemini request ──
-  const MODEL   = 'gemini-2.0-flash-preview';
+  const MODEL   = 'gemini-3-flash-preview.';
   const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
 
   const payload = {
