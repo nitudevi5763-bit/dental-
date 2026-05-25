@@ -70,6 +70,8 @@ export default async function handler(req, res) {
 
   // ── Call Gemini ──
   try {
+    console.log("API URL:", API_URL);
+console.log("API KEY EXISTS:", !!process.env.GEMINI_API_KEY);
     const gRes = await fetch(API_URL, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -83,10 +85,15 @@ export default async function handler(req, res) {
         error:  `Gemini API returned ${gRes.status}`,
         detail: errText,
       });
-    }
+    
+    const data = await gRes.json();
 
-    const data  = await gRes.json();
-    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+console.log("Gemini Response:", JSON.stringify(data));
+
+const reply =
+  data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ||
+  "AI response nahi mila.";
+
 
     if (!reply) {
       console.error('Empty Gemini response:', JSON.stringify(data));
