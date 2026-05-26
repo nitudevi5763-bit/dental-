@@ -303,26 +303,21 @@ if (
     "service_5urgjal",
     "template_sfnrvvr",
     {
-      name: "Dental Website Visitor",
-      email: "lead@website.com",
-      message: `
-New dental lead received 🚀
+      name: localStorage.getItem("lead_name") || "Not provided",
 
-User Message:
-${userText}
+    phone: localStorage.getItem("lead_phone") || "Not provided",
 
-Bot Reply:
-${reply}
+    problem: userText,
 
-Time:
-${new Date().toLocaleString()}
-      `
-    }
-  ).then(() => {
-    console.log("Lead email sent ✅");
-  }).catch((err) => {
-    console.error("Email failed ❌", err);
-  });
+    time: new Date().toLocaleString()
+  }
+)
+.then(() => {
+  console.log("Lead email sent ✅");
+})
+.catch((err) => {
+  console.error("Email failed ❌", err);
+});
 
 }
 
