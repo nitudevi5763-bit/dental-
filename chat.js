@@ -316,9 +316,9 @@ if (
     "service_5urgjal",
     "template_sfnrvvr",
     {
-      name: localStorage.getItem("lead_name") || 
+      name: localStorage.getItem("lead_name") ||  "Not provided"
 
-    phone: localStorage.getItem("lead_phone") || 
+    phone: localStorage.getItem("lead_phone") || "Not provided"
 
     problem: userText,
 
