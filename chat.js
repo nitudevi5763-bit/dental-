@@ -237,6 +237,13 @@ async function submit(userText) {
       return;
     }
     leadName = userText.trim();
+    // Save patient name
+if (
+  userText.includes(" ") &&
+  /^[A-Za-z ]+$/.test(userText)
+) {
+  localStorage.setItem("lead_name", userText);
+}
     localStorage.setItem("lead_name", userText);
     leadStep = 'await_phone';
     showTyping(); await sleep(750); hideTyping();
@@ -255,6 +262,10 @@ async function submit(userText) {
       return;
     }
     leadPhone = userText.trim();
+    // Save phone number
+if (/^[6-9]\d{9}$/.test(userText)) {
+  localStorage.setItem("lead_phone", userText);
+}
     localStorage.setItem("lead_phone", userText);
     leadStep  = 'done';
     showTyping(); await sleep(900); hideTyping();
@@ -305,9 +316,9 @@ if (
     "service_5urgjal",
     "template_sfnrvvr",
     {
-      name: localStorage.getItem("lead_name") || "Not provided",
+      name: localStorage.getItem("lead_name") || 
 
-    phone: localStorage.getItem("lead_phone") || "Not provided",
+    phone: localStorage.getItem("lead_phone") || 
 
     problem: userText,
 
