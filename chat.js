@@ -237,6 +237,7 @@ async function submit(userText) {
       return;
     }
     leadName = userText.trim();
+    localStorage.setItem("lead_name", userText);
     leadStep = 'await_phone';
     showTyping(); await sleep(750); hideTyping();
     addMsg('bot', `Shukriya ${leadName}! 😊\nAb apna WhatsApp number share karein — doctor aapko personally call karenge.`);
@@ -254,6 +255,7 @@ async function submit(userText) {
       return;
     }
     leadPhone = userText.trim();
+    localStorage.setItem("lead_phone", userText);
     leadStep  = 'done';
     showTyping(); await sleep(900); hideTyping();
     addLeadCard(leadName, leadPhone);
