@@ -308,6 +308,41 @@ async function submit(userText) {
     hideTyping();
     addMsg('bot', reply);
     history.push({ role: 'model', parts: [{ text: reply }] });
+    // ===== EMAIL LEAD SYSTEM =====
+
+if (
+  userText.toLowerCase().includes("appointment") ||
+  userText.toLowerCase().includes("book") ||
+  userText.toLowerCase().includes("call") ||
+  userText.toLowerCase().includes("doctor")
+) {
+
+  emailjs.send(
+    "service_5urgjal",
+    "template_sfnrvvr",
+    {
+      name: "Dental Website Visitor",
+      email: "lead@website.com",
+      message: `
+New dental lead received 🚀
+
+User Message:
+${userText}
+
+Bot Reply:
+${reply}
+
+Time:
+${new Date().toLocaleString()}
+      `
+    }
+  ).then(() => {
+    console.log("Lead email sent ✅");
+  }).catch((err) => {
+    console.error("Email failed ❌", err);
+  });
+
+}
 
     // ── Detect name-ask in bot reply → trigger lead flow ──
     const lower = reply.toLowerCase();
