@@ -244,7 +244,6 @@ if (
 ) {
   localStorage.setItem("lead_name", userText);
 }
-    localStorage.setItem("lead_name", userText);
     leadStep = 'await_phone';
     showTyping(); await sleep(750); hideTyping();
     addMsg('bot', `Shukriya ${leadName}! 😊\nAb apna WhatsApp number share karein — doctor aapko personally call karenge.`);
