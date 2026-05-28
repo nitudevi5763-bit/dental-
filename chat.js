@@ -370,12 +370,16 @@ if (
     else if (leadStep === 'chat') setQR(QR_MID);
 
   } catch (err) {
-    hideTyping();
-    history.pop(); // rollback failed message
-    addMsg('bot', Server thoda busy hai 😅
-Please 10–15 seconds baad fir try kariye.,    console.error('Chat error:', err.message);
-  }
+  hideTyping();
+  history.pop(); // rollback failed message
 
+  addMsg(
+    'bot',
+    'Server thoda busy hai 😅 Please 10-15 seconds baad fir try kariye.'
+  );
+
+  console.error('Chat error:', err.message);
+}
   isBusy = false;
   btnEl().disabled = false;
 }
