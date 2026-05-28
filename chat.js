@@ -373,8 +373,8 @@ if (
   } catch (err) {
     hideTyping();
     history.pop(); // rollback failed message
-    addMsg('bot', 'Kuch technical issue aa gaya 😅 Kripya dobara try karein.\nYa seedha call karein: 📞 +91 98765 43210');
-    console.error('Chat error:', err.message);
+    addMsg('bot', Server thoda busy hai 😅
+Please 10–15 seconds baad fir try kariye.    console.error('Chat error:', err.message);
   }
 
   isBusy = false;
