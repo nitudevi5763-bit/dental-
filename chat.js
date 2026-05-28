@@ -265,7 +265,6 @@ if (
 if (/^[6-9]\d{9}$/.test(userText)) {
   localStorage.setItem("lead_phone", userText);
 }
-    localStorage.setItem("lead_phone", userText);
     leadStep  = 'done';
     showTyping(); await sleep(900); hideTyping();
     addLeadCard(leadName, leadPhone);
