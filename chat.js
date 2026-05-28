@@ -357,7 +357,6 @@ if (
 .catch((err) => {
   console.error("Email failed ❌", err);
 });
-}
 
     // ── Detect name-ask in bot reply → trigger lead flow ──
     const lower = reply.toLowerCase();
