@@ -279,40 +279,100 @@ if (/^[6-9]\d{9}$/.test(userText)) {
     return;
   }
 
-  // ── Normal: Gemini call via /api/chat ──
-  history.push({ role: 'user', parts: [{ text: userText }] });
-  showTyping();
+  // — Normal: Gemini call via /api/chat —
+history.push({ role: 'user', parts: [{ text: userText }] });
+showTyping();
 
-  try {
+try {
 
-  const res = await fetch('/api/chat', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      system: SYSTEM,
-      history
-    })
-  });
+  let res;
+  let retries = 3;
 
-  if (!res.ok) {
-    const errJson = await res.json().catch(() => ({}));
-    throw new Error(errJson.error || `HTTP ${res.status}`);
+  for (let i = 0; i < retries; i++) {
+
+    res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        system: SYSTEM,
+        history
+      })
+    });
+
+    // success
+    if (res.ok) break;
+
+    // retry for server errors
+    if (
+      res.status === 503 ||
+      res.status === 502 ||
+      res.status === 429
+    ) {
+      console.log(`Retrying... Attempt ${i + 1}`);
+
+      await new Promise(resolve =>
+        setTimeout(resolve, 2000)
+      );
+
+      continue;
+    }
+
+    throw new Error(`HTTP ${res.status}`);
   }
 
-  const { reply } = await res.json();
+  const data = await res.json();
 
-  if (!reply) {
-    throw new Error('Empty response');
-  }
+  const reply =
+    data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+    "Sorry, response nahi mila.";
 
   hideTyping();
+
+  history.push({
+    role: 'model',
+    parts: [{ text: reply }]
+  });
+
   addMsg('bot', reply);
+
+  // Detect name ask
+  const lower = reply.toLowerCase();
+
+  const asksName =
+    lower.includes('naam') ||
+    lower.includes('name') ||
+    lower.includes('aapka naam');
+
+  if (leadStep === 'chat' && asksName) {
+    leadStep = 'await_name';
+  }
+
+  // Quick replies
+  if (history.length <= 2) {
+    setQR(QR_WELCOME);
+  } else if (leadStep === 'chat') {
+    setQR(QR_MID);
+  }
 
 } catch (err) {
 
   hideTyping();
+
+  history.pop();
+
+  addMsg(
+    'bot',
+    'Server thoda busy hai 😅 Please 10-15 seconds baad fir try kariye.'
+  );
+
+  console.error('Chat error:', err.message);
+
+}
+
+isBusy = false;
+btnEl().disabled = false;  hideTyping();
 
   addMsg(
     'bot',
