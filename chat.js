@@ -284,7 +284,7 @@ if (/^[6-9]\d{9}$/.test(userText)) {
   showTyping();
 
   try {
-    const res = await fetchlet res;
+    let res;
 let retries = 3;
 
 for (let i = 0; i < retries; i++) {
