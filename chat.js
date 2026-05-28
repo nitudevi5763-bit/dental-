@@ -284,41 +284,43 @@ if (/^[6-9]\d{9}$/.test(userText)) {
   showTyping();
 
   try {
-    let res;
-let retries = 3;
 
-for (let i = 0; i < retries; i++) {
-  try {
-    res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ system: SYSTEM, history }),
-    });
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      system: SYSTEM,
+      history
+    })
+  });
 
-    // Success
-    if (res.ok) break;
-
-    // Retry only for server errors
-    if (res.status === 503 || res.status === 502 || res.status === 429) {
-      console.log(`Retrying... Attempt ${i + 1}`);
-      await new Promise(r => setTimeout(r, 2000));
-      continue;
-    }
-
-    // Other errors
-    throw new Error(`HTTP ${res.status}`);
-
-  } catch (err) {
-
-    if (i === retries - 1) {
-      throw err;
-    }
-
-    await new Promise(r => setTimeout(r, 2000));
+  if (!res.ok) {
+    const errJson = await res.json().catch(() => ({}));
+    throw new Error(errJson.error || `HTTP ${res.status}`);
   }
-}    });
 
-    if (!res.ok) {
+  const { reply } = await res.json();
+
+  if (!reply) {
+    throw new Error('Empty response');
+  }
+
+  hideTyping();
+  addMsg('bot', reply);
+
+} catch (err) {
+
+  hideTyping();
+
+  addMsg(
+    'bot',
+    'Server thoda busy hai 😅 Please 10-15 seconds baad fir try kariye.'
+  );
+
+  console.error('Chat error:', err.message);
+}    if (!res.ok) {
       const errJson = await res.json().catch(() => ({}));
       throw new Error(errJson.error || `HTTP ${res.status}`);
     }
