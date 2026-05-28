@@ -314,14 +314,14 @@ if (
 
   emailjs.send(
     "service_5urgjal",
-    "template_sfnrvvr",
-    {
-      name: localStorage.getItem("lead_name") ||  "Not provided",
-
-    phone: localStorage.getItem("lead_phone") || "Not provided",
-
-    problem: userText,
-
+  "template_sfnrvvr",
+  {
+    name: localStorage.getItem("lead_name") || userText,
+    
+    phone: localStorage.getItem("lead_phone") || userText,
+    
+    message: userText,
+    
     time: new Date().toLocaleString()
   }
 )
@@ -331,7 +331,6 @@ if (
 .catch((err) => {
   console.error("Email failed ❌", err);
 });
-
 }
 
     // ── Detect name-ask in bot reply → trigger lead flow ──
