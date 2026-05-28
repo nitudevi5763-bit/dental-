@@ -374,7 +374,7 @@ if (
     hideTyping();
     history.pop(); // rollback failed message
     addMsg('bot', Server thoda busy hai 😅
-Please 10–15 seconds baad fir try kariye.    console.error('Chat error:', err.message);
+Please 10–15 seconds baad fir try kariye.,    console.error('Chat error:', err.message);
   }
 
   isBusy = false;
